@@ -1,6 +1,5 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
+import 'models/recommend.dart';
 
 void main() {
   runApp(MyApp());
@@ -30,71 +29,41 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  String avatorName = '大哥';
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
+  List<dynamic> list = new List();
+  @override
+  void initState() {
+    super.initState();
+    this.getdataList();
+  }
+
+  void getdataList() {
+    RecommendData().getRecList().then((value) {
+      this.setState(() {
+        list = value;
+      });
     });
   }
-  void _setAvatorTitle(){
-    setState(() {
-      avatorName = '我变了';
-    });
-  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Center(
-          
-          child: FloatingActionButton(
-            child: Icon(
-            Icons.ac_unit_sharp,
-            color: Colors.green,
-            size: 30.0,
-            ),
-            onPressed: _setAvatorTitle,
-          ),
-          
-        ),
-        title: Text(avatorName),
-        actions: <Widget>[
-          Center(
-            child: Column(
-              children:<Widget>[
-                Text('一')
-              ],
-            ),
-          ),
-          Center(
-            child: Text('二'),
-          ),
-          Center(
-            child: Text('三'),
-          ),
-        ],
+        title: Text(widget.title),
       ),
-      body: Center(
-        
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), 
+      body: ListView.separated(
+          itemBuilder: (context, index) {
+            var _data = this.list[index];
+            return ListTile(
+                leading: Image.network(_data["cover"]),
+                title: Text(_data["title"]),
+                subtitle: Text(_data["tname"] + _data["name"]),
+                trailing: Icon(Icons.chevron_right));
+          },
+          separatorBuilder: (context, index) {
+            return Divider();
+          },
+          itemCount:
+              10), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
