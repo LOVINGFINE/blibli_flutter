@@ -25,7 +25,6 @@ class BaseEntity<T> {
     );
   }
 }
-
 // data:[] 转换
 class BaseListEntity<T> {
   int code;
@@ -80,7 +79,6 @@ ErrorEntity createErrorEntity(DioError error) {
       {
         try {
           int errCode = error.response.statusCode;
-          String errMsg = error.response.statusMessage;
          switch (errCode) {
            case 400: {
              return ErrorEntity(code: errCode, message: "请求语法错误");
