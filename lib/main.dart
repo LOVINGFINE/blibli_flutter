@@ -52,7 +52,7 @@ class _MyApp extends State<MyApp> with TickerProviderStateMixin {
               // Container 裝飾組件
               color: Colors.blueGrey[100],
             ),
-            height: 80, // 高度 一般都是50
+            height: 50, // 高度 一般都是50
             child: TabBar(
               // TabBar 組件  需要在MaterialApp的body屬性中指定，對應容器,
               controller: _controller,

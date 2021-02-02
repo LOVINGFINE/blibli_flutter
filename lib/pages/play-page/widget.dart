@@ -1,5 +1,6 @@
 import 'package:blibli_flutter/utils/utils.dart';
 import 'package:flutter/material.dart';
+import './components/playVideo.dart';
 
 class PlayPage extends StatefulWidget {
   // 状态管理类
@@ -31,8 +32,25 @@ class _PlayPage extends State<PlayPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('播放组件'),
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('blibli'),
+        ),
+        body: Container(
+          color: Colors.white,
+          child: Stack(
+            children: <Widget>[
+              Container(
+                height: 250.0,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                ),
+                child: PlayBox(),
+              )
+            ],
+          ),
+        )
     );
   }
 }
