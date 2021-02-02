@@ -18,7 +18,6 @@ class _Recommend extends State<Recommend> {
   @override
   void initState() {
     super.initState();
-    list = [];
     this.getdataList(); // 获取推荐列表
   }
 
@@ -30,28 +29,98 @@ class _Recommend extends State<Recommend> {
     });
   }
 
+  void toDetail(int index) {
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext ctx) {
+      return PlayPage(param: list[index]['param']);
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return list.length==0?Text('加载中...'):ListView.separated(
-        itemBuilder: (context, index) {
-          var _data = this.list[index];
-          return GestureDetector(
-              child: ListTile(
-                  leading: Image.network(_data["cover"]),
-                  title: Text(_data["title"]),
-                  subtitle: Text(_data["tname"]),
-                  trailing: Icon(Icons.chevron_right)),
-              onTap: () {
-                Navigator.push(context, // 这里使用Navigator.push 方法
-                    MaterialPageRoute(builder: (BuildContext ctx) {
-                  return PlayPage(
-                      idx: _data['idx']); // builder 方法需要一个 weiget作为返回值
-                }));
-              });
-        },
-        separatorBuilder: (context, index) {
-          return Divider();
-        },
-        itemCount: this.list.length);
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverGrid(
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 210.0,
+            mainAxisSpacing: 1.0,
+            crossAxisSpacing: 10.0,
+            childAspectRatio: 0.90,
+          ),
+          delegate:
+              SliverChildBuilderDelegate((BuildContext context, int index) {
+            return Container(
+              padding: EdgeInsets.only(
+                  top: 20.0,
+                  left: index % 2 == 0 ? 10.0 : 0,
+                  right: index % 2 != 0 ? 10.0 : 0),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(3.0)),
+                child: Column(children: <Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      toDetail(index);
+                    },
+                    child: Image.network(
+                      list[index]['cover'],
+                      height: 130.0,
+                      repeat: ImageRepeat.repeatY,
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                  Expanded(
+                    child: Stack(
+                      children: <Widget>[
+                        Padding(
+                            padding: EdgeInsets.only(
+                                left: 10.0, right: 10.0, top: 6.0),
+                            child: Text(
+                              list[index]['title'],
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                height: 1.3,
+                              ),
+                            )),
+                        Positioned(
+                            left: 12.0,
+                            bottom: 6.0,
+                            child: Container(
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    color: Colors.pink[300],
+                                    borderRadius: BorderRadius.circular(3.0)),
+                                width: 60,
+                                child: Text(
+                                  list[index]['tname'] == null
+                                      ? '暂无分类'
+                                      : list[index]['tname'],
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    height: 1.4,
+                                  ),
+                                ))),
+                        Positioned(
+                            right: 12.0,
+                            bottom: 6.0,
+                            child: Text(
+                              '...',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  height: 1.4,
+                                  fontSize: 20.0),
+                            ))
+                      ],
+                    ),
+                  )
+                ]),
+              ),
+            );
+          }, childCount: list.length),
+        )
+      ],
+    );
   }
 }

@@ -44,8 +44,8 @@ class _TopNav extends State<TopNav> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     // final width = window.physicalSize.width;
     return Container(
-        height: 30.0,
-        color: Colors.blue[100],
+        height: 45.0,
+        color: Colors.blue[500],
         child: TabBar(
           isScrollable: true,
           controller: _tabController,
@@ -53,7 +53,11 @@ class _TopNav extends State<TopNav> with SingleTickerProviderStateMixin {
             Map item = list[index];
             return Container(
                 child: Center(
-              child: Text(item['title']),
+              child: Text(
+                item['title'],
+                style: TextStyle(
+                    fontSize: 16.0),
+              ),
             ));
           }).toList(),
           onTap: (int i) {

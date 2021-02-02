@@ -25,6 +25,9 @@ dependencies:
     sdk: flutter
   dio: 3.0.0
   cupertino_icons: ^1.0.0
+  convert: ^2.1.1
+  crypto: ^2.1.5
+  video_player: ^1.0.1
 
 dev_dependencies:
   flutter_test:

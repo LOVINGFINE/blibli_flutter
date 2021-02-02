@@ -14,7 +14,7 @@ class SwitchPage extends StatefulWidget {
 class _SwitchPage extends State<SwitchPage> {
   int nav = 0;
   void handleNav(int i) {
-    print(i);
+    nav = i;
   }
 
   Widget switchWidget() {
@@ -29,19 +29,22 @@ class _SwitchPage extends State<SwitchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TopNav(
-          nav: nav,
-          handleNav: (e) {
-            handleNav(e);
-          },
-        ),
-        Container(
-          height: 600,
-          child: switchWidget(),
-        )
-      ],
-    );
+    return Container(
+        decoration: BoxDecoration(
+            color: Colors.grey[200]),
+        child: Column(
+          children: [
+            TopNav(
+              nav: nav,
+              handleNav: (e) {
+                handleNav(e);
+              },
+            ),
+            Expanded(
+                child: Container(
+              child: switchWidget(),
+            ))
+          ],
+        ));
   }
 }
